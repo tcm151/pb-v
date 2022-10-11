@@ -16,16 +16,15 @@ import (
 )
 
 func main() {
-	pb := pocketbase.New()
+    pb := pocketbase.New()
+    
+    pb.OnBeforeServe().Add(func(e *core.ServeEvent) error {
+        e.Router.Static("/", "static")
+	return nil
+    })
 
-	pb.OnBeforeServe().Add(func(e *core.ServeEvent) error {
-		e.Router.Static("/", "static")
-		return nil
-	})
-
-	if err := pb.Start(); err != nil {
-		log.Fatal(err)
-	}
-
+    if err := pb.Start(); err != nil {
+        log.Fatal(err)
+    }
 }
 ```
